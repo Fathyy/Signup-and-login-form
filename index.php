@@ -1,0 +1,1 @@
+<h1>Successful signup</h1>
