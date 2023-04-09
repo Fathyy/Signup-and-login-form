@@ -32,8 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['password2'] = "Passwords should match";
     }
 
+    $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
     if (count($errors) === 0) {
-        header("Location: index.php");
+        // insert data into db
+        require __DIR__ . '/config/database.php';
+        $stmt = $dbh->prepare("INSERT INTO users (username, email, password) 
+        VALUES(:username, :email, :password)");
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password_hash, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch();
+
+        header("Location: signup-successful.html");
         exit;
     }
     else {
