@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+if (isset($_SESSION['user_id'])) {
+    require_once __DIR__ . '/config/database.php';
+    $stmt = $dbh->prepare("SELECT * FROM users
+    WHERE id = {$_SESSION['user_id']}");
+    $stmt->execute();
+    $user = $stmt->fetch();
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +20,8 @@ session_start();
 </head>
 <body>
     <?php
-    if (isset($_SESSION['user_id'])): ?>
-        <p>You are now logged in!</p>
+    if (isset($user)): ?>
+        <p>Hello <?php echo htmlspecialchars($user['username'])?></p>
         <a href="logout.php">Log out</a>
 
         <?php else: ?>
