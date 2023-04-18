@@ -1,10 +1,10 @@
 <?php
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = sanitize_data($_POST['username']);
-    $email = sanitize_data($_POST['email']);
-    $password = sanitize_data($_POST['password']);
-    $password2 = sanitize_data($_POST['password2']);
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $password2 = $_POST['password2'];
 
     $inputs = [];
     $errors = [];
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password_hash, PDO::PARAM_STR);
         $stmt->execute();
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         header("Location: signup-successful.html");
         exit;
@@ -54,13 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
       
-}
-
-function sanitize_data($data)
-{
-    $data = strip_tags($data);
-    $data = trim($data);
-    return $data;
 }
 
 ?>

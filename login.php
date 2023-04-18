@@ -4,8 +4,8 @@ $isInvalid = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/config/database.php';
-    $email = sanitize_data($_POST['email']);
-    $password = sanitize_data($_POST['password']);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -22,13 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $isInvalid = true;
 }
 
-
-function sanitize_data($data)
-{
-    $data = strip_tags($data);
-    $data = trim($data);
-    return $data;
-}
 ?>
 <?php require_once __DIR__ . '/inc/header.php';?>
 <?php
