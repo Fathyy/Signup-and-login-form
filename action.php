@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['username'] = "username is required";
     }
 
+    // validate the email
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     if ($email) {
         $validatedEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -32,8 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['password2'] = "Passwords should match";
     }
 
+    // hash the password to be stored in the DB
     $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+
+    // if there is no errors in the errors array
     if (count($errors) === 0) {
         // insert data into db
         require __DIR__ . '/config/database.php';
@@ -48,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: signup-successful.html");
         exit;
     }
+    // store errors in a session to be accessed in register.php
     else {
         $_SESSION['errors'] = $errors;
         header("Location: register.php");

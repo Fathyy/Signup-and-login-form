@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// getting the logged in user based in their session ID
 if (isset($_SESSION['user_id'])) {
     require_once __DIR__ . '/config/database.php';
     $stmt = $dbh->prepare("SELECT * FROM users
@@ -20,6 +20,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <?php
+    // Display name of logged in user
     if (isset($user)): ?>
         <p>Hello <?php echo htmlspecialchars($user['username'])?></p>
         <a href="logout.php">Log out</a>

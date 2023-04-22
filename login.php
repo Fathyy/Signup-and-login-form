@@ -7,13 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // Check if the email exists in the DB
     $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC); //fetching the email as an associative array
     if ($user) {
+        // if email exists, verify the input password against the hashed one in the DB
         if (password_verify($_POST['password'], $user['password'])) {
-            session_regenerate_id();
+            session_regenerate_id(); // regenerate session if a user logs back in again
             $_SESSION['user_id'] = $user['id'];
             header("Location: index.php");
             exit;
@@ -25,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php require_once __DIR__ . '/inc/header.php';?>
 <?php
+// less details about error in order to give attackers less clues
 if ($isInvalid): ?>
     <em>Invalid Login</em>
 <?php endif ?>

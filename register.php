@@ -4,8 +4,10 @@ require_once __DIR__. '/inc/header.php';
 ?>
 <form action="action.php" method="post">
     <?php
+    // if there are errors in the session array, display them 
     if (isset($_SESSION['errors'])) {
         $errors = $_SESSION['errors'];
+        // unset to prevent showing of errors after the page is refreshed
         unset($_SESSION['errors']);
     }
     ?>
