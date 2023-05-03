@@ -46,6 +46,7 @@ if ($isInvalid): ?>
     <button type="submit">Login</button>
 
     <footer>Don't have an account? <a href="register.php">Signup here</a></footer>
+    <p><a href="forgot_password.php">Forgot Password?</a></p>
 </form>
 
 <?php require_once __DIR__ . '/inc/footer.php';?>
