@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $password2 = $_POST['password2'];
 
-    $inputs = [];
+    $inputs = []; //haven't used this yet
     $errors = [];
 
     if (empty($username)) {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email) {
         $validatedEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
     }
-    $inputs['email'] = $validatedEmail;
+    // $inputs['email'] = $validatedEmail;
     if (!$validatedEmail) {
         $errors['email'] = 'Wrong email format';
     }
